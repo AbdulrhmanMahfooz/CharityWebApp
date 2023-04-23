@@ -17,7 +17,7 @@ namespace CharityApp.Controllers
         {
             _testContex = testContext;
         }
-        [HttpPost("get_branche")]
+        [HttpPost("get_branch")]
         public async Task<IActionResult> getBranches(getBranchRequest getBranch)
         {
 
@@ -37,15 +37,13 @@ namespace CharityApp.Controllers
 
         }
         [HttpPost("add_branch")]
-        public async Task<IActionResult> addBranche(addBranchRequest add)
+        public async Task<IActionResult> addBranch(addBranchRequest add)
         {
-
             if (add.branchId == 0)
             {
                 var addBranch = new TestModels.Branch
-
                 {
-                    //BranchNo=105,
+                    BranchNo=add.branchId,
                     BranchName = add.name,
                     BranchNameLatin = add.nameEn,
                     Address = add.address,
@@ -59,12 +57,12 @@ namespace CharityApp.Controllers
                     BuildingId = add.building,
                     Remarks = add.Remarks,
                     Email = add.email,
-                    //Tel = add.telephone,
+                    Tel = add.telephone
 
                 };
                 var addBranchRef = new TestModels.BranchesRef
                 {
-                    BranchNo = 5,
+                    BranchNo = add.branchId,
                     BranchName = add.name,
                     BranchNameLatin = add.nameEn,
                     Address = add.address,
@@ -92,39 +90,39 @@ namespace CharityApp.Controllers
                 var branch = await _testContex.Branches
                     .Where(x => x.BranchNo == add.branchId)
                     .FirstOrDefaultAsync();
-                branch.BranchName = add.name;
-                branch.BranchNameLatin = add.nameEn;
-                branch.Address = add.address;
-                branch.ContactName = add.contact;
-                branch.DateOpen = add.Date_Open;
+                branch.BranchName = branch.BranchName;
+                branch.BranchNameLatin = branch.BranchNameLatin;
+                branch.Address = branch.Address;
+                branch.ContactName = branch.ContactName;
+                branch.DateOpen = branch.DateOpen;
                 //branch.CountryNo = (short)add.countryId;
                 //branch.RegionNo = (short)add.regionId;
                 //branch.CityNo = (short)add.cityId;
                 //branch.DistrictNo = (short)add.districtId;
-                branch.StreetId = add.street;
-                branch.BuildingId = add.building;
-                branch.Remarks = add.Remarks;
-                branch.Email = add.email;
-                branch.Tel = add.telephone;
+                branch.StreetId = branch.StreetId;
+                branch.BuildingId = branch.BuildingId;
+                branch.Remarks = branch.Remarks;
+                branch.Email = branch.Email;
+                branch.Tel = branch.Tel;
 
 
                 var addBranchRef = new TestModels.BranchesRef
                 {
-                    BranchNo = (short)add.branchId,
-                    BranchName = add.name,
-                    BranchNameLatin = add.nameEn,
-                    Address = add.address,
-                    ContactName = add.contact,
-                    DateOpen = add.Date_Open,
-                    //CountryNo = (short)add.countryId,
-                    //RegionNo = (short)add.regionId,
-                    //CityNo = (short)add.cityId,
-                    //DistrictNo = (short)add.districtId,
-                    StreetId = add.street,
-                    BuildingId = add.building,
-                    Remarks = add.Remarks,
-                    Email = add.email,
-                    Tel = add.telephone,
+                    BranchNo = branch.BranchNo,
+                    BranchName = branch.BranchName,
+                    BranchNameLatin = branch.BranchNameLatin,
+                    Address = branch.Address,
+                    ContactName = branch.ContactName,
+                    DateOpen = branch.DateOpen,
+                    //CountryNo = (short)branch.countryId,
+                    //RegionNo = (short)branch.regionId,
+                    //CityNo = (short)branch.cityId,
+                    //DistrictNo = (short)branch.districtId,
+                    StreetId = branch.StreetId,
+                    BuildingId = branch.BuildingId,
+                    Remarks = branch.Remarks,
+                    Email = branch.Email,
+                    Tel = branch.Tel,
                     ActionId = 2
                 };
 
@@ -133,6 +131,50 @@ namespace CharityApp.Controllers
                 await _testContex.SaveChangesAsync();
                 return Ok(branch);
             }
+
+        }
+
+        [HttpPost("delete_branch")]
+        public async Task<IActionResult> deleteBranch(deleteBranchRequest ReBranch)
+        {
+
+            var branch = await _testContex.Branches
+            .Where(x => x.BranchNo == ReBranch.branchId)
+            .FirstOrDefaultAsync();
+
+
+            var delete = new deleteBranchResponse
+            {
+                success = true
+            };
+
+            var addBranchRef = new TestModels.BranchesRef
+            {
+                BranchNo = branch.BranchNo,
+                BranchName = branch.BranchName,
+                BranchNameLatin = branch.BranchNameLatin,
+                Address = branch.Address,
+                ContactName = branch.ContactName,
+                DateOpen = branch.DateOpen,
+                //CountryNo = (short)branch.countryId,
+                //RegionNo = (short)branch.regionId,
+                //CityNo = (short)branch.cityId,
+                //DistrictNo = (short)branch.districtId,
+                StreetId = branch.StreetId,
+                BuildingId = branch.BuildingId,
+                Remarks = branch.Remarks,
+                Email = branch.Email,
+                Tel = branch.Tel,
+       
+                ActionId = 3
+            };
+
+
+            await _testContex.BranchesRefs.AddAsync(addBranchRef);
+            //await _testContex.SaveChangesAsync();
+            _testContex.Branches.Remove(branch);
+            await _testContex.SaveChangesAsync();
+            return Ok(true);
 
         }
     }

@@ -8,7 +8,7 @@ namespace CharityApp.TestModels
     public partial class BranchesRef
     {
         public int OpNo { get; set; }
-        public short BranchNo { get; set; }
+        public int BranchNo { get; set; }
         public string BranchName { get; set; }
         public string BranchNameLatin { get; set; }
         public string ContactName { get; set; }
