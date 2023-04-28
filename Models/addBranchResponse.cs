@@ -31,5 +31,12 @@ namespace CharityApp.Models
         public string accountNo { get; set; }
         public string vatReg { get; set; }
         public bool? stop { get; set; }
+
+
+        public class branchAdressInfo
+        {
+            public int countryID { get; set; }
+            public string address { get; set; }
+        }
     }
 }

@@ -488,8 +488,8 @@ namespace CharityApp.TestModels
                     .HasColumnName("Status_Date");
 
                 entity.Property(e => e.UpdateDate)
-                    .HasColumnType("datetime(6)")
-                    .HasColumnName("Update_Date");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("Update_Date");
 
                 entity.Property(e => e.UserNoCreated).HasColumnName("User_No_Created");
 

@@ -13,6 +13,7 @@ namespace CharityApp.TestModels
             Regions = new HashSet<Region>();
         }
 
+
         public short CountryNo { get; set; }
         public string CountryName { get; set; }
         public string CountryNameLatin { get; set; }
@@ -30,5 +31,7 @@ namespace CharityApp.TestModels
 
         public virtual ICollection<Branch> Branches { get; set; }
         public virtual ICollection<Region> Regions { get; set; }
+
     }
+
 }

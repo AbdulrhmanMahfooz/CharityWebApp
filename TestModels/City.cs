@@ -27,10 +27,22 @@ namespace CharityApp.TestModels
         public string Status { get; set; }
         public DateTime? StatusDate { get; set; }
         public string PcName { get; set; }
+        
         public string PcUserName { get; set; }
 
         public virtual Region RegionNoNavigation { get; set; }
         public virtual ICollection<Branch> Branches { get; set; }
         public virtual ICollection<District> Districts { get; set; }
+
+        public static implicit operator List<object>(City v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private class citites2
+        {
+            public short CityNo { get; set; }
+            public string CityName { get; set; }
+        }
     }
 }
