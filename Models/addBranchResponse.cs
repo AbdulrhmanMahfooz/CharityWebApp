@@ -8,13 +8,14 @@ namespace CharityApp.Models
     public class addBranchResponse
     {
         public int branchId { get; set; }
+        public int branchNo { get; set; }
         public string name { get; set; }
         public string nameEn { get; set; }
-        public DateTime Date_Open { get; set; }
+        public DateTime? branchOpenDate { get; set; }
         public string Remarks { get; set; }
         public string accountNo { get; set; }
         public string vatReg { get; set; }
-        public bool stop { get; set; }
+        public bool? isBranchDeactivated { get; set; }
 
 
         public BranchAddressInfoResponse branchAddressInfo { get; set; }
@@ -36,7 +37,7 @@ namespace CharityApp.Models
 
     public class ContactInfoResponse
     {
-        public string contact { get; set; }
+  
         public string email { get; set; }
         public string telephone { get; set; }
         public string telephone_2 { get; set; }
