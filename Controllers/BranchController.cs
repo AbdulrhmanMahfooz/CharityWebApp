@@ -40,7 +40,7 @@ namespace CharityApp.Controllers
                 branchAdmin = branch.ContactName,
                 branchArName = branch.BranchName,
                 branchEnName = branch.BranchNameLatin,
-                contactInfo = new ContactInfo
+                contactInfo = new ContactInfoRes
                 {
                     telephone  =branch.Tel,
                     telephone_2 = branch.Tel1,
@@ -90,7 +90,7 @@ namespace CharityApp.Controllers
         [HttpPost("add_branche")]
         public async Task<IActionResult> addBranche(addBranchRequest add)
         {
-            if (add.branchId == 0)
+            if (add.branchId == 0)  // adding new Branch
             {
                 var addBranch = new TestModels.Branch
                 {

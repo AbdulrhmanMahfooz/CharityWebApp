@@ -15,7 +15,7 @@ namespace CharityApp.Models
         public string branchArName { get; set; }
         public string branchEnName { get; set; }
         public BranchAdrressInfo branchAdrressInfo { get; set; }
-        public ContactInfo contactInfo { get; set; }
+        public ContactInfoRes contactInfo { get; set; }
 
 
     }
@@ -33,7 +33,7 @@ namespace CharityApp.Models
         public string postalBox { get; set; }
     }
 
-    public class ContactInfo
+    public class ContactInfoRes
     {
         public string telephone { get; set; }
         public string telephone_2 { get; set; }

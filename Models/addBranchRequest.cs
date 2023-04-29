@@ -21,7 +21,7 @@ namespace CharityApp.Models
 
 
         public BranchAddressInfo branchAddressInfo { get; set; }
-        public ContactInfo contactInfo { get; set; }
+        public ContactInfoReq contactInfo { get; set; }
     }
 
     public class BranchAddressInfo
@@ -37,7 +37,7 @@ namespace CharityApp.Models
         public string poBox { get; set; }
     }
 
-    public class ContactInfo
+    public class ContactInfoReq
     {
         public string contact { get; set; }
         public string email { get; set; }
