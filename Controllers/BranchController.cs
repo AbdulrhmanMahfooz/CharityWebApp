@@ -1,13 +1,16 @@
 ﻿using CharityApp.Models;
 using CharityApp.testModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CharityApp.Controllers
 {
+    [EnableCors("AllowAllOrigins")]
     [Route("api/[controller]")]
     [ApiController]
     public class BranchController : ControllerBase
@@ -17,6 +20,8 @@ namespace CharityApp.Controllers
         {
             _testContex = testContext;
         }
+
+
         [HttpPost("get_branche")]
         public async Task<IActionResult> getBranches(getBranchRequest getBranch)
         {
@@ -24,18 +29,62 @@ namespace CharityApp.Controllers
             var branch = await _testContex.Branches
             .Where(x => x.BranchNo == getBranch.branchId)
             .FirstOrDefaultAsync();
-            var testc = new addBranchResponse
+            var testc = new BranchInfoResponse
             {
-                building = branch.BuildingId,
-                email = branch.Email,
-                name = branch.BranchName,
-                street = branch.StreetId,
+                branchId = branch.BranchNo,
+                branchNo = branch.BranchNo,
+                isBranchDeactivated =branch.Stop,
+                branchOpenDate = branch.DateOpen,
+                branchAdmin = branch.ContactName,
+                branchArName = branch.BranchName,
+                branchEnName = branch.BranchNameLatin,
+                contactInfo = new ContactInfo
+                {
+                    telephone  =branch.Tel,
+                    telephone_2 = branch.Tel1,
+                    mobile = branch.Mobile,
+                    mobile_2= branch.Mobile1,
+                    fax = branch.Fax,
+                    fax_2 = branch.Fax1,
+                    email =  branch.Email,
+                },
 
-
+                branchAdrressInfo = new BranchAdrressInfo
+                {
+                    cityId = branch.CityNo,
+                    districtId = branch.DistrictNo,
+                     regionId = branch.RegionNo,    
+                     countryId = branch.CountryNo,
+                }
             };
             return Ok(testc);
          
         }
+
+        [HttpPost("get_allBrachesByCompanyId")]
+        public async Task<IActionResult> get_allBrachesByCompanyId(AllBranchesByCountryIdRequest countryid)
+        {
+
+            var branch = await _testContex.Branches
+            .Where(x => x.CountryNo == countryid.CountryID)
+            .ToListAsync();
+            
+            List<int> branchsIds = new List<int>();
+            foreach (var id in branch)
+            {
+                branchsIds.Add(id.BranchNo);
+            }
+
+            var branchsIdResponse = new AllBranchesByCountryIdResponse
+            {
+                branchesId = branchsIds,
+            };
+            return Ok(branchsIdResponse);
+
+        }
+
+
+
         [HttpPost("add_branche")]
         public async Task<IActionResult> addBranche(addBranchRequest add)
         {

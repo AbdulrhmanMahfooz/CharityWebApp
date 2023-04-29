@@ -20,6 +20,8 @@ namespace CharityApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+         
+                    
                     webBuilder.UseStartup<Startup>();
                 });
     }
