@@ -5,31 +5,42 @@ using System.Threading.Tasks;
 
 namespace CharityApp.Models
 {
-    public class addBranchResponse
+    public class BranchInfoResponse
     {
-        public string name { get; set; }
-        public string nameEn { get; set; }
-        public string contact { get; set; }
+        public int branchId { get; set; }
+        public int branchNo { get; set; }  
+        public bool? isBranchDeactivated { get; set; }
+        public DateTime? branchOpenDate { get; set; }
+        public string branchAdmin { get; set; }
+        public string branchArName { get; set; }
+        public string branchEnName { get; set; }
+        public BranchAddressInfoRes branchAddressInfo { get; set; }
+        public ContactInfoRes contactInfo { get; set; }
+
+
+    }
+
+    public class BranchAddressInfoRes
+    {
+        public int? countryId { get; set; }
+        public int? cityId { get; set; }
+        public int? regionId { get; set; }
+        public int? districtId { get; set; }
         public string address { get; set; }
         public string street { get; set; }
         public string building { get; set; }
-        public DateTime? Date_Open { get; set; }
-        public int? countryId { get; set; }
-        public int? regionId { get; set; }
-        public int? cityId { get; set; }
-        public int? districtId { get; set; }
-        public string Remarks { get; set; }
-        public string email { get; set; }
+        public string postalCode { get; set; }
+        public string postalBox { get; set; }
+    }
+
+    public class ContactInfoRes
+    {
         public string telephone { get; set; }
         public string telephone_2 { get; set; }
         public string mobile { get; set; }
         public string mobile_2 { get; set; }
         public string fax { get; set; }
         public string fax_2 { get; set; }
-        public string zipCode { get; set; }
-        public string poBox { get; set; }
-        public string accountNo { get; set; }
-        public string vatReg { get; set; }
-        public bool? stop { get; set; }
+        public string emailAddress { get; set; }
     }
 }
