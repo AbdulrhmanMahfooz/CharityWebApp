@@ -41,7 +41,8 @@ namespace CharityApp
                     {
                         var allowedOrigins = new string[]
                         {
-                            "http://localhost:4200"
+                            "http://localhost:4200",
+                            "https://endoment-web.vercel.app"
                         };
 
                         builder.WithOrigins(allowedOrigins)

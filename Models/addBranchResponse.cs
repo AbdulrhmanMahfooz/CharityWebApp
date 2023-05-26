@@ -14,13 +14,13 @@ namespace CharityApp.Models
         public string branchAdmin { get; set; }
         public string branchArName { get; set; }
         public string branchEnName { get; set; }
-        public BranchAdrressInfo branchAdrressInfo { get; set; }
+        public BranchAddressInfoRes branchAddressInfo { get; set; }
         public ContactInfoRes contactInfo { get; set; }
 
 
     }
 
-    public class BranchAdrressInfo
+    public class BranchAddressInfoRes
     {
         public int? countryId { get; set; }
         public int? cityId { get; set; }
@@ -41,6 +41,6 @@ namespace CharityApp.Models
         public string mobile_2 { get; set; }
         public string fax { get; set; }
         public string fax_2 { get; set; }
-        public string email { get; set; }
+        public string emailAddress { get; set; }
     }
 }

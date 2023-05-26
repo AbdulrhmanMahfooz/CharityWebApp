@@ -5,48 +5,45 @@ using System.Threading.Tasks;
 
 namespace CharityApp.Models
 {
+
     public class addBranchRequest
     {
         public int branchId { get; set; }
-        public string name { get; set; }
-        public string nameEn { get; set; }
+        public int branchNo { get; set; }
+        public bool? isBranchDeactivated { get; set; }
+        public DateTime? branchOpenDate { get; set; }
+        public string branchAdmin { get; set; }
+        public string branchArName { get; set; }
+        public string branchEnName { get; set; }
 
 
-
-        public DateTime Date_Open { get; set; }
-        public string Remarks { get; set; }
-        public string accountNo { get; set; }
-        public string vatReg { get; set; }
-        public bool stop { get; set; }
-
-
-        public BranchAddressInfo branchAddressInfo { get; set; }
+        public BranchAddressInfoReq branchAddressInfo { get; set; }
         public ContactInfoReq contactInfo { get; set; }
     }
 
-    public class BranchAddressInfo
+    public class BranchAddressInfoReq
     {
         public int countryId { get; set; }
-        public int regionId { get; set; }
         public int cityId { get; set; }
+        public int regionId { get; set; }
         public int districtId { get; set; }
         public string address { get; set; }
         public string street { get; set; }
-        public string building { get; set; }
-        public string zipCode { get; set; }
-        public string poBox { get; set; }
+        public string buildingNo { get; set; }
+        public string postalcode { get; set; }
+        public string postalBox { get; set; }
     }
 
     public class ContactInfoReq
     {
-        public string contact { get; set; }
-        public string email { get; set; }
-        public string telephone { get; set; }
-        public string telephone_2 { get; set; }
-        public string mobile { get; set; }
-        public string mobile_2 { get; set; }
-        public string fax { get; set; }
-        public string fax_2 { get; set; }
+        
+        public string phoneNo_1 { get; set; }
+        public string phoneNo_2 { get; set; }
+        public string mobileNo_1 { get; set; }
+        public string mobileNo_2 { get; set; }
+        public string faxNo_1 { get; set; }
+        public string faxNo_2 { get; set; }
+        public string emailAddress { get; set; }
 
     }
 }

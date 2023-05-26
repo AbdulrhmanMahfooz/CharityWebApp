@@ -48,10 +48,10 @@ namespace CharityApp.Controllers
                     mobile_2= branch.Mobile1,
                     fax = branch.Fax,
                     fax_2 = branch.Fax1,
-                    email =  branch.Email,
+                    emailAddress =  branch.Email,
                 },
 
-                branchAdrressInfo = new BranchAdrressInfo
+                branchAddressInfo = new BranchAddressInfoRes
                 {
                     cityId = branch.CityNo,
                     districtId = branch.DistrictNo,
@@ -95,11 +95,11 @@ namespace CharityApp.Controllers
                 var addBranch = new TestModels.Branch
                 {
                     BranchNo=add.branchId,
-                    DateOpen = add.Date_Open,
-                    BranchName = add.name,
-                    BranchNameLatin = add.nameEn,
-                    Stop = add.stop,
-                    Remarks = add.Remarks,
+                    DateOpen = add.branchOpenDate,
+                    BranchName = add.branchArName,
+                    BranchNameLatin = add.branchEnName,
+                    Stop = add.isBranchDeactivated,
+      
 
 
                     Address = add.branchAddressInfo.address,
@@ -108,26 +108,26 @@ namespace CharityApp.Controllers
                     CityNo = (short)add.branchAddressInfo.cityId,
                     DistrictNo = (short)add.branchAddressInfo.districtId,
                     StreetId = add.branchAddressInfo.street,
-                    BuildingId = add.branchAddressInfo.building,
-                    ZipCode = add.branchAddressInfo.zipCode,
-                    PoBox = add.branchAddressInfo.poBox,
+                    BuildingId = add.branchAddressInfo.buildingNo,
+                    ZipCode = add.branchAddressInfo.postalcode,
+                    PoBox = add.branchAddressInfo.postalBox,
 
 
-                    ContactName = add.contactInfo.contact,
-                    Email = add.contactInfo.email,
-                    Tel = add.contactInfo.telephone,
-                    Tel1 = add.contactInfo.telephone_2,
-                    Mobile = add.contactInfo.mobile,
-                    Mobile1 = add.contactInfo.mobile_2,
-                    Fax = add.contactInfo.fax,
-                    Fax1 = add.contactInfo.fax_2
+                    ContactName = add.branchAdmin,
+                    Email = add.contactInfo.emailAddress,
+                    Tel = add.contactInfo.phoneNo_1,
+                    Tel1 = add.contactInfo.phoneNo_2,
+                    Mobile = add.contactInfo.mobileNo_1,
+                    Mobile1 = add.contactInfo.mobileNo_2,
+                    Fax = add.contactInfo.faxNo_1,
+                    Fax1 = add.contactInfo.faxNo_2
                 };
                 var addBranchRef = new TestModels.BranchesRef
                 {
                     BranchNo = add.branchId,
-                    DateOpen = add.Date_Open,
-                    BranchName = add.name,
-                    BranchNameLatin = add.nameEn,
+                    DateOpen = add.branchOpenDate,
+                    BranchName = add.branchArName,
+                    BranchNameLatin = add.branchEnName,
                     Address = add.branchAddressInfo.address,
                     //ContactName = add.contactInfo.,
 
@@ -136,31 +136,62 @@ namespace CharityApp.Controllers
                     CityNo = (short)add.branchAddressInfo.cityId,
                     DistrictNo = (short)add.branchAddressInfo.districtId,
                     StreetId = add.branchAddressInfo.street,
-                    BuildingId = add.branchAddressInfo.building,
-                    Remarks = add.Remarks,
-                    Email = add.contactInfo.email,
-                    Tel = add.contactInfo.telephone,
+                    BuildingId = add.branchAddressInfo.buildingNo,
+                    
+                    Email = add.contactInfo.emailAddress,
+                    Tel = add.contactInfo.phoneNo_1,
                     ActionId = 1
                 };
                 await _testContex.Branches.AddAsync(addBranch);
                 await _testContex.BranchesRefs.AddAsync(addBranchRef);
                 await _testContex.SaveChangesAsync();
 
-                return Ok(addBranch);
+
+                var branch = addBranch;
+
+                var testc = new BranchInfoResponse
+                {
+                    branchId = branch.BranchNo,
+                    branchNo = branch.BranchNo,
+                    isBranchDeactivated = branch.Stop,
+                    branchOpenDate = branch.DateOpen,
+                    branchAdmin = branch.ContactName,
+                    branchArName = branch.BranchName,
+                    branchEnName = branch.BranchNameLatin,
+                    contactInfo = new ContactInfoRes
+                    {
+                        telephone = branch.Tel,
+                        telephone_2 = branch.Tel1,
+                        mobile = branch.Mobile,
+                        mobile_2 = branch.Mobile1,
+                        fax = branch.Fax,
+                        fax_2 = branch.Fax1,
+                        emailAddress = branch.Email,
+                    },
+
+                    branchAddressInfo = new BranchAddressInfoRes
+                    {
+                        cityId = branch.CityNo,
+                        districtId = branch.DistrictNo,
+                        regionId = branch.RegionNo,
+                        countryId = branch.CountryNo,
+                    }
+                };
+                return Ok(testc);
             }
-            else
+            else // editing Branch
             {
                 var branch = await _testContex.Branches
                     .Where(x => x.BranchNo == add.branchId)
                     .FirstOrDefaultAsync();
 
 
-                    branch.BranchNo = add.branchId;
-                    branch.DateOpen = add.Date_Open;
-                    branch.BranchName = add.name;
-                    branch.BranchNameLatin = add.nameEn;
-                    branch.Stop = add.stop;
-                    branch.Remarks = add.Remarks;
+                  
+                    branch.DateOpen = add.branchOpenDate;
+                    branch.BranchName = add.branchArName;
+                    branch.BranchNameLatin = add.branchEnName;
+                    branch.Stop = add.isBranchDeactivated;
+                    
 
 
                     branch.Address = add.branchAddressInfo.address;
@@ -169,19 +200,19 @@ namespace CharityApp.Controllers
                     branch.CityNo = (short)add.branchAddressInfo.cityId;
                     branch.DistrictNo = (short)add.branchAddressInfo.districtId;
                     branch.StreetId = add.branchAddressInfo.street;
-                    branch.BuildingId = add.branchAddressInfo.building;
-                    branch.ZipCode = add.branchAddressInfo.zipCode;
-                    branch.PoBox = add.branchAddressInfo.poBox;
+                    branch.BuildingId = add.branchAddressInfo.buildingNo;
+                    branch.ZipCode = add.branchAddressInfo.postalcode;
+                    branch.PoBox = add.branchAddressInfo.postalBox;
 
 
-                    branch.ContactName = add.contactInfo.contact;
-                    branch.Email = add.contactInfo.email;
-                    branch.Tel = add.contactInfo.telephone;
-                    branch.Tel1 = add.contactInfo.telephone_2;
-                    branch.Mobile = add.contactInfo.mobile;
-                    branch.Mobile1 = add.contactInfo.mobile_2;
-                    branch.Fax = add.contactInfo.fax;
-                    branch.Fax1 = add.contactInfo.fax_2;
+                    branch.ContactName = add.branchAdmin;
+                    branch.Email = add.contactInfo.emailAddress;
+                    branch.Tel = add.contactInfo.phoneNo_1;
+                    branch.Tel1 = add.contactInfo.phoneNo_2;
+                    branch.Mobile = add.contactInfo.mobileNo_1;
+                    branch.Mobile1 = add.contactInfo.mobileNo_2;
+                    branch.Fax = add.contactInfo.faxNo_1;
+                    branch.Fax1 = add.contactInfo.faxNo_2;
 
 
 
@@ -224,9 +255,41 @@ namespace CharityApp.Controllers
                 };
 
 
+                var testc = new BranchInfoResponse
+                {
+                    branchId = branch.BranchNo,
+                    branchNo = branch.BranchNo,
+                    isBranchDeactivated = branch.Stop,
+                    branchOpenDate = branch.DateOpen,
+                    branchAdmin = branch.ContactName,
+                    branchArName = branch.BranchName,
+                    branchEnName = branch.BranchNameLatin,
+                    contactInfo = new ContactInfoRes
+                    {
+                        telephone = branch.Tel,
+                        telephone_2 = branch.Tel1,
+                        mobile = branch.Mobile,
+                        mobile_2 = branch.Mobile1,
+                        fax = branch.Fax,
+                        fax_2 = branch.Fax1,
+                        emailAddress = branch.Email,
+                    },
+
+                    branchAddressInfo = new BranchAddressInfoRes
+                    {
+                        cityId = branch.CityNo,
+                        districtId = branch.DistrictNo,
+                        regionId = branch.RegionNo,
+                        countryId = branch.CountryNo,
+                    }
+                };
+
+
+                _testContex.Branches.Update(branch);
+
                 await _testContex.BranchesRefs.AddAsync(addBranchRef);
                 await _testContex.SaveChangesAsync();
-                return Ok(branch);
+                return Ok(testc);
             }
 
         }
