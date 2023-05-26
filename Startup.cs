@@ -1,6 +1,6 @@
 
 
-using CharityApp.TestModels;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using CharityApp.EndwomentData;
+
 namespace CharityApp
 {
     public class Startup
@@ -32,8 +34,9 @@ namespace CharityApp
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<TestContext>(options => options.UseMySQL(Configuration.GetConnectionString("TestConnetion")));
+            
 
+            services.AddDbContext<EndowmentDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("EndowmentConnetion")));
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",

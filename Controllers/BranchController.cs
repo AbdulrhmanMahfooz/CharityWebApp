@@ -1,5 +1,6 @@
-﻿using CharityApp.Models;
-using CharityApp.TestModels;
+﻿using CharityApp.EndwomentData;
+using CharityApp.Models;
+using CharityApp.EndwomentData;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
+using System;
 
 namespace CharityApp.Controllers
 {
@@ -17,10 +19,10 @@ namespace CharityApp.Controllers
     [ApiController]
     public class BranchController : ControllerBase
     {
-        private readonly TestContext _testContex;
-        public BranchController(TestContext testContext)
+        private readonly EndowmentDbContext _endowmentContex;
+        public BranchController(EndowmentDbContext EndowmentDbContext)
         {
-            _testContex = testContext;
+            _endowmentContex = EndowmentDbContext;
         }
 
 
@@ -28,7 +30,7 @@ namespace CharityApp.Controllers
         public async Task<IActionResult> getBranches(getBranchRequest getBranch)
         {
 
-            var branch = await _testContex.Branches
+            var branch = await _endowmentContex.Branches
             .Where(x => x.BranchNo == getBranch.branchId)
             .FirstOrDefaultAsync();
             var testc = new BranchInfoResponse
@@ -36,8 +38,9 @@ namespace CharityApp.Controllers
                 branchId = branch.BranchNo,
                 branchNo = branch.BranchNo,
                 isBranchDeactivated =branch.Stop,
-                branchOpenDate = branch.DateOpen,
-                branchAdmin = branch.ContactName,
+                
+            branchOpenDate = DateTime.Parse(branch.DateOpen),
+            branchAdmin = branch.ContactName,
                 branchArName = branch.BranchName,
                 branchEnName = branch.BranchNameLatin,
                 contactInfo = new ContactInfoRes
@@ -67,7 +70,7 @@ namespace CharityApp.Controllers
         public async Task<IActionResult> get_allBrachesByCompanyId(AllBranchesByCountryIdRequest countryid)
         {
 
-            var branch = await _testContex.Branches
+            var branch = await _endowmentContex.Branches
             .Where(x => x.CountryNo == countryid.CountryID)
             .ToListAsync();
             
@@ -92,10 +95,10 @@ namespace CharityApp.Controllers
         {
             if (add.branchId == 0)  // adding new Branch
             {
-                var addBranch = new TestModels.Branch
+                var addBranch = new EndwomentData.Branch
                 {
-                    BranchNo=add.branchId,
-                    DateOpen = add.branchOpenDate,
+                    BranchNo= (short)add.branchNo,
+                    DateOpen = add.branchOpenDate.ToString(),
                     BranchName = add.branchArName,
                     BranchNameLatin = add.branchEnName,
                     Stop = add.isBranchDeactivated,
@@ -122,10 +125,10 @@ namespace CharityApp.Controllers
                     Fax = add.contactInfo.faxNo_1,
                     Fax1 = add.contactInfo.faxNo_2
                 };
-                var addBranchRef = new TestModels.BranchesRef
+                var addBranchRef = new EndwomentData.BranchesRef
                 {
-                    BranchNo = add.branchId,
-                    DateOpen = add.branchOpenDate,
+                    BranchNo = (short)add.branchNo,
+                    DateOpen = add.branchOpenDate.ToString(),
                     BranchName = add.branchArName,
                     BranchNameLatin = add.branchEnName,
                     Address = add.branchAddressInfo.address,
@@ -140,11 +143,11 @@ namespace CharityApp.Controllers
                     
                     Email = add.contactInfo.emailAddress,
                     Tel = add.contactInfo.phoneNo_1,
-                    ActionId = 1
+              
                 };
-                await _testContex.Branches.AddAsync(addBranch);
-                await _testContex.BranchesRefs.AddAsync(addBranchRef);
-                await _testContex.SaveChangesAsync();
+                await _endowmentContex.Branches.AddAsync(addBranch);
+                await _endowmentContex.BranchesRefs.AddAsync(addBranchRef);
+                await _endowmentContex.SaveChangesAsync();
 
 
                 var branch = addBranch;
@@ -154,7 +157,7 @@ namespace CharityApp.Controllers
                     branchId = branch.BranchNo,
                     branchNo = branch.BranchNo,
                     isBranchDeactivated = branch.Stop,
-                    branchOpenDate = branch.DateOpen,
+                    branchOpenDate = DateTime.Parse(branch.DateOpen),
                     branchAdmin = branch.ContactName,
                     branchArName = branch.BranchName,
                     branchEnName = branch.BranchNameLatin,
@@ -181,13 +184,13 @@ namespace CharityApp.Controllers
             }
             else // editing Branch
             {
-                var branch = await _testContex.Branches
+                var branch = await _endowmentContex.Branches
                     .Where(x => x.BranchNo == add.branchId)
                     .FirstOrDefaultAsync();
 
 
                   
-                    branch.DateOpen = add.branchOpenDate;
+                    branch.DateOpen = add.branchOpenDate.ToString();
                     branch.BranchName = add.branchArName;
                     branch.BranchNameLatin = add.branchEnName;
                     branch.Stop = add.isBranchDeactivated;
@@ -234,7 +237,7 @@ namespace CharityApp.Controllers
                 //branch.Tel = branch.Tel;
 
 
-                var addBranchRef = new TestModels.BranchesRef
+                var addBranchRef = new EndwomentData.BranchesRef
                 {
                     BranchNo = branch.BranchNo,
                     BranchName = branch.BranchName,
@@ -251,7 +254,7 @@ namespace CharityApp.Controllers
                     Remarks = branch.Remarks,
                     Email = branch.Email,
                     Tel = branch.Tel,
-                    ActionId = 2
+                    
                 };
 
 
@@ -260,7 +263,7 @@ namespace CharityApp.Controllers
                     branchId = branch.BranchNo,
                     branchNo = branch.BranchNo,
                     isBranchDeactivated = branch.Stop,
-                    branchOpenDate = branch.DateOpen,
+                    branchOpenDate = DateTime.Parse(branch.DateOpen),
                     branchAdmin = branch.ContactName,
                     branchArName = branch.BranchName,
                     branchEnName = branch.BranchNameLatin,
@@ -285,10 +288,10 @@ namespace CharityApp.Controllers
                 };
 
 
-                _testContex.Branches.Update(branch);
+                _endowmentContex.Branches.Update(branch);
 
-                await _testContex.BranchesRefs.AddAsync(addBranchRef);
-                await _testContex.SaveChangesAsync();
+                await _endowmentContex.BranchesRefs.AddAsync(addBranchRef);
+                await _endowmentContex.SaveChangesAsync();
                 return Ok(testc);
             }
 
@@ -298,7 +301,7 @@ namespace CharityApp.Controllers
         public async Task<IActionResult> deleteBranch(deleteBranchRequest ReBranch)
         {
 
-            var branch = await _testContex.Branches
+            var branch = await _endowmentContex.Branches
             .Where(x => x.BranchNo == ReBranch.branchId)
             .FirstOrDefaultAsync();
 
@@ -308,7 +311,7 @@ namespace CharityApp.Controllers
                 success = true
             };
 
-            var addBranchRef = new TestModels.BranchesRef
+            var addBranchRef = new EndwomentData.BranchesRef
             {
                 BranchNo = branch.BranchNo,
                 BranchName = branch.BranchName,
@@ -324,16 +327,14 @@ namespace CharityApp.Controllers
                 BuildingId = branch.BuildingId,
                 Remarks = branch.Remarks,
                 Email = branch.Email,
-                Tel = branch.Tel,
-       
-                ActionId = 3
+                Tel = branch.Tel
             };
 
 
-            await _testContex.BranchesRefs.AddAsync(addBranchRef);
-            //await _testContex.SaveChangesAsync();
-            _testContex.Branches.Remove(branch);
-            await _testContex.SaveChangesAsync();
+            await _endowmentContex.BranchesRefs.AddAsync(addBranchRef);
+            //await _endowmentContex.SaveChangesAsync();
+            _endowmentContex.Branches.Remove(branch);
+            await _endowmentContex.SaveChangesAsync();
             return Ok(true);
 
         }

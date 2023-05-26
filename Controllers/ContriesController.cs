@@ -1,6 +1,6 @@
 ﻿using System;
 using CharityApp.Models;
-using CharityApp.TestModels;
+//using CharityApp.TestModels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
+using CharityApp.EndwomentData;
 
 namespace CharityApp.Controllers
 {
@@ -18,16 +19,16 @@ namespace CharityApp.Controllers
 
     public class ContriesController : ControllerBase
 	{
-        private readonly TestContext _testContex;
-        public ContriesController(TestContext testContext)
+        private readonly EndowmentDbContext _endowmentContex;
+        public ContriesController(EndowmentDbContext EndowmentDbContext)
         {
-            _testContex = testContext;
+            _endowmentContex = EndowmentDbContext;
         }
         [HttpPost("get_All_Countries")]
 
         public async Task<ActionResult<IEnumerable<Country>>> GetObjects()
         {
-            List<Country> countries = await _testContex.Countries.ToListAsync();
+            List<Country> countries = await _endowmentContex.Countries.ToListAsync();
             List<getAllCountriesResponse> newcountries = countries.Select(Country => new getAllCountriesResponse
             {
                 countries = new countriesRes

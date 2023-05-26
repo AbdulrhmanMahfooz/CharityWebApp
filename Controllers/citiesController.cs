@@ -1,6 +1,6 @@
 ﻿using System;
 using CharityApp.Models;
-using CharityApp.TestModels;
+//using CharityApp.TestModels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Xml.Linq;
+using CharityApp.EndwomentData;
 
 namespace CharityApp.Controllers
 {
@@ -16,16 +17,16 @@ namespace CharityApp.Controllers
 
     public class citiesController : ControllerBase
 	{
-        private readonly TestContext _testContex;
-        public citiesController(TestContext testContext)
+        private readonly  EndowmentDbContext _endowmentContex;
+        public citiesController( EndowmentDbContext  EndowmentDbContext)
         {
-            _testContex = testContext;
+            _endowmentContex =  EndowmentDbContext;
         }       
         [HttpPost("get_city_by_regionID")]
 
         public async Task<IActionResult> getCity(getCitiesByRegionRequest getCity)
         {
-            List<City> cities = await _testContex.Cities.Where(x=> x.RegionNo == getCity.regionID).ToListAsync();
+            List<City> cities = await _endowmentContex.Cities.Where(x=> x.RegionNo == getCity.regionID).ToListAsync();
 
             List<getCitiesByRegionResponse> testc = cities.Select(city => new getCitiesByRegionResponse
             {
