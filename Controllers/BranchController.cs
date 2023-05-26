@@ -1,6 +1,5 @@
 ﻿using CharityApp.EndwomentData;
 using CharityApp.Models;
-using CharityApp.EndwomentData;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
