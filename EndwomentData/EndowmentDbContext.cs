@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace CharityApp.EndwomentData;
@@ -238,6 +239,11 @@ public partial class EndowmentDbContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+    }
+
+    internal Task SaveChangesAsync()
+    {
+        throw new NotImplementedException();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
