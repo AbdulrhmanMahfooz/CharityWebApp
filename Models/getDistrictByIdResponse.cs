@@ -6,7 +6,6 @@ namespace CharityApp.Models
         public short districtId { get; set; }
         public int cityId { get; set; }
         public int regionId { get; set; }
-
         public int countryId { get; set; }
         public string districtArName { get; set; }
         public string districtEnName { get; set; }

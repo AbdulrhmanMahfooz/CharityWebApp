@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace CharityApp.Controllers
 {
@@ -102,15 +103,15 @@ namespace CharityApp.Controllers
                 var addDistrictRef = new EndwomentData.DistrictsRef
                 {
 
-                    DistrictNo = district.districtId,
-                    CityNo = district.cityId,
-                    RegionNo = district.regionId,
-                    CountryNo = district.countryId,
-                    DistrictName = district.districtArName,
-                    DistrictNameLatin = district.districtEnName,
-                    OriginDate = district.createdAt,
-                    Remarks = district.notes,
-                    Stop = district.isActivated
+                    DistrictNo = district.DistrictNo,
+                    CityNo = district.CityNo,
+                    RegionNo = district.RegionNo,
+                    CountryNo = district.CountryNo,
+                    DistrictName = district.DistrictName,
+                    DistrictNameLatin = district.DistrictNameLatin,
+                    OriginDate = district.OriginDate,
+                    Remarks = district.Remarks,
+                    Stop = district.Stop
 
                 };
 
