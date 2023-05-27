@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CharityApp.EndwomentData;
 
 [Table("regions")]
+[Index("CountryNo", Name = "Countr_no_idx")]
 public partial class Region
 {
     [Key]
@@ -61,4 +62,8 @@ public partial class Region
     [Column("Status_Date")]
     [MaxLength(6)]
     public DateTime? StatusDate { get; set; }
+
+    [ForeignKey("CountryNo")]
+    [InverseProperty("Regions")]
+    public virtual Country CountryNoNavigation { get; set; }
 }

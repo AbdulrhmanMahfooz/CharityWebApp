@@ -174,6 +174,10 @@ public partial class EndowmentDbContext : DbContext
         modelBuilder.Entity<Region>(entity =>
         {
             entity.HasKey(e => e.RegionNo).HasName("PRIMARY");
+
+            entity.HasOne(d => d.CountryNoNavigation).WithMany(p => p.Regions)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Country_No");
         });
 
         modelBuilder.Entity<RegionsRef>(entity =>

@@ -58,4 +58,7 @@ public partial class Country
     [Column("Status_Date")]
     [MaxLength(6)]
     public DateTime? StatusDate { get; set; }
+
+    [InverseProperty("CountryNoNavigation")]
+    public virtual ICollection<Region> Regions { get; set; } = new List<Region>();
 }

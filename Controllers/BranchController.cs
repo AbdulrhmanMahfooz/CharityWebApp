@@ -92,7 +92,8 @@ namespace CharityApp.Controllers
 
         [HttpPost("add_branche")]
         public async Task<IActionResult> addBranche(addBranchRequest add)
-        {
+        {   
+            
             if (add.branchId == 0)  // adding new Branch
             {
                 var addBranch = new EndwomentData.Branch
